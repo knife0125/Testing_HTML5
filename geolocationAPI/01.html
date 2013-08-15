@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Geolocation API 01</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.11.0/build/cssreset/cssreset-min.css">
+</head>
+<body>
+    <header>
+        <h1>Geolocation API 01</h1>
+    </header>
+    <div id="main">
+        <dl>
+            <dt>緯度</dt>
+            <dd id="latitude">-</dd>
+            <dt>経度</dt>
+            <dd id="longitude">-</dd>
+        </dl>
+    </div>
+    <footer>
+    </footer>
+    <script>
+        //位置情報取得エラー時のアラート
+        function show_alert (evt) {
+            alert("Cannot get location");
+        }
+
+        //位置情報取得完了時の処理
+        function show_location (evt) {
+            var latitude = evt.coords.latitude,
+                longitude = evt.coords.longitude;
+            document.querySelector("#latitude").textContent = latitude;
+            document.querySelector("#longitude").textContent = longitude;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            //現在位置情報を取得
+            navigator.geolocation.getCurrentPosition(show_location, show_alert);
+        });
+    </script>
+</body>
+</html>

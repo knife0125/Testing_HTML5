@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Geolocation API 04</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.11.0/build/cssreset/cssreset-min.css">
+</head>
+<body>
+    <header>
+        <h1>Geolocation API 04</h1>
+    </header>
+    <div id="main">
+        <p><button type="button">開始</button></p>
+        <dl>
+            <dt>緯度</dt>
+            <dd id="latitude">-</dd>
+            <dt>経度</dt>
+            <dd id="longitude">-</dd>
+        </dl>
+    </div>
+    <footer>
+    </footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function (win, doc) {
+        //監視識別ID
+        var watch_id = 0,
+            button = doc.querySelector("button"),
+            latitude_display = doc.querySelector("#latitude"),
+            longitude_display = doc.querySelector("#longitude");
+
+
+        button.addEventListener("click", function () {
+            if (watch_id > 0) {
+                win.navigator.geolocation.clearWatch(watch_id);
+                watch_id = 0;
+                button.textContent = "開始";
+            } else {
+                watch_id = win.navigator.geolocation.watchPosition(monitor);
+                button.textContent = "停止";
+            }
+        }, false);
+
+        function monitor (evt) {
+            var latitude = evt.coords.latitude,
+                longitude = evt.coords.longitude;
+
+            latitude_display.textContent = latitude;
+            longitude_display.textContent = longitude;
+        }
+
+    } (window, document), false);
+    </script>
+</body>
+</html>

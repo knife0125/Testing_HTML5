@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Geolocation API 02</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.11.0/build/cssreset/cssreset-min.css">
+</head>
+<body>
+    <header>
+        <h1>Geolocation API 02</h1>
+    </header>
+    <div id="main">
+        <dl>
+            <dt>緯度</dt>
+            <dd id="latitude">-</dd>
+            <dt>経度</dt>
+            <dd id="longitude">-</dd>
+            <dt>緯度・経度の精度</dt>
+            <dd id="accuracy">-</dd>
+            <dt>GPS高度</dt>
+            <dd id="altitude">-</dd>
+            <dt>GPS高度の精度</dt>
+            <dd id="altitudeAccuracy">-</dd>
+            <dt>移動方向</dt>
+            <dd id="heading">-</dd>
+            <dt>移動速度</dt>
+            <dd id="speed">-</dd>
+            <dt>タイムスタンプ</dt>
+            <dd id="timestamp">-</dd>
+        </dl>
+    </div>
+    <footer>
+    </footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function (win, doc) {
+        win.navigator.geolocation.getCurrentPosition(
+            show_location,
+            show_error,
+            position_options
+        );
+
+        function show_location (evt) {
+            var latitude = evt.coords.latitude,
+                longitude = evt.coords.longitude,
+                accuracy = evt.coords.accuracy,
+                altitude = evt.coords.altitude,
+                altitudeAccuracy = evt.coords.altitudeAccuracy,
+                heading = evt.coords.heading,
+                speed = evt.coords.speed,
+                date = evt.timestamp;
+
+            if (typeof(date) == "number") {
+                date = new Date(date);
+            }
+
+            doc.querySelector("#latitude").textContent = latitude;
+            doc.querySelector("#longitude").textContent = longitude;
+            doc.querySelector("#accuracy").textContent = accuracy;
+            doc.querySelector("#altitude").textContent = altitude;
+            doc.querySelector("#altitudeAccuracy").textContent = altitudeAccuracy;
+            doc.querySelector("#heading").textContent = heading;
+            doc.querySelector("#speed").textContent = speed;
+            doc.querySelector("#timestamp").textContent = date.toString();
+        }
+
+        function show_error (evt) {
+            alert(evt.message + "(" + evt.code + ")");
+        }
+
+        var position_options = {
+            enableHighAccuracy: true,   //高精度を要求
+            timeout: 10000,             //最大待ち時間(ミリ秒)
+            maximumAge: 0               //キャッシュの有効期間(ミリ秒)
+        };
+
+    }(window, document), false);
+    </script>
+</body>
+</html>
