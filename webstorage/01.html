@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebStorage-localStorage-</title>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.11.0/build/cssreset/cssreset-min.css">
+</head>
+<body>
+    <header>
+        <h1>WebStorage-localStorage-</h1>
+    </header>
+    <div id="main">
+        <input type="text" id="textbox">
+        <p>
+            localStorage:<div id="out"></div>
+        </p>
+    </div>
+    <footer>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+    <script>
+        $("#textbox").change(function () {
+            localStorage['test'] = $(this).val();
+            $("#out").text(localStorage['test']);
+        });
+
+        $("#out").text(localStorage['test']);
+    </script>
+</body>
+</html>
