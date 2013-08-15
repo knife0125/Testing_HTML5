@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket 01</title>
+</head>
+<body>
+    <header>
+        <h1>websocket echo client demo.</h1>
+    </header>
+    <div id="main">
+        <h3>send message</h3>
+        <p>
+            <input type="text" id="sendm">
+            <input type="button" id="btn" value="send">
+        </p>
+        <h3>receive message</h3>
+        <div style="border: 1px solid gray; width: 300px; height:400px" id="recvm">
+
+        </div>
+    </div>
+    <footer>
+    </footer>
+    <script>
+        // サーバへの接続要求
+        var ws = new WebSocket('ws://192.168.11.13:8080/echo');
+
+        // サーバと接続したイベントハンドラをセット
+        ws.onopen = function () {
+            // ボタンがクリックされたら、サーバにメッセージを送信
+            document.getElementById('btn').addEventListener("click", function () {
+                var sendMessage = document.getElementById('sendm').value;
+                ws.send(sendMessage);
+            });
+
+            // サーバからのエコーメッセージを画面に出力
+            ws.onmessage = function (evt) {
+                document.getElementById('recvm').innerHTML += evt.data + "<br />";
+            }
+        }
+
+        // ページを閉じるときに、サーバとのコネクションも閉じる
+        window.onunload = function () {
+            if(ws) ws.close();
+        }
+
+    </script>
+</body>
+</html>
