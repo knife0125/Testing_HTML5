@@ -1,0 +1,18 @@
+CACHE MANIFEST
+
+# version 0.02
+
+CACHE:
+# キャッシュするファイルを指定するセクション(explicit sectionという名称)
+    ./01.html
+    ./jquery-1.10.2.min.js
+    http://yui.yahooapis.com/3.11.0/build/cssreset/cssreset-min.css
+
+
+NETWORK:
+# キャッシュされずに常にネットワークから取得するファイルやディレクトリを指定(Web APIなどの動的ファイルを指定する)
+    ./api/
+
+FALLBACK:
+# ファイルが存在しなかった場合に表示されるファイルを指定
+#    ./  sorry.html
