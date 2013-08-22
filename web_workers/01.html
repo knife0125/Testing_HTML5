@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Workers 01</title>
+</head>
+<body>
+    <p>Workerからのメッセージ: <output></output></p>
+    <script>
+    window.addEventListener("load", function () {
+        // 各要素などのオブジェクトを変数に格納
+        var worker = new Worker("01_worker.js"),
+            output = document.querySelector("output");
+
+        // ワーカーからメッセージイベントを受け取った時のハンドラをセット
+        worker.onmessage = function (e) {
+            // ワーカーからのメッセージを取得
+            var message = e.data;
+            // output要素にデータを表示
+            output.value = message;
+            output.textContent = message;
+        };
+
+        // ワーカーへ処理開始のメッセージを送信
+        worker.postMessage("start");
+
+        // windowを閉じると同時にworkerをストップ
+        window.onbeforeunload = function () {
+            worker.terminate();
+        };
+
+    }, false);
+    </script>
+</body>
+</html>
