@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File API 03</title>
+</head>
+<body>
+    <h1>File API 03</h1>
+    <p><input type="file" /><span id="state">待機中</span></p>
+    <p><video width="480" height="272" controls="controls"></video></p>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.querySelector("input[type=\"file\"]");
+            input.addEventListener("change", function (event) {
+                var files = event.target.files;
+                var file = files[0];
+                if (!file) {return;}
+                if (!file.type.match(/^video\/mp4$/)) {
+                    alert("MP4ビデオを指定してください");
+                }
+                load_file(file);
+            }, false);
+        }, false);
+
+        function load_file (file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            var span = document.querySelector("#state");
+
+            var handler = window.setInterval(function () {
+                if (reader.readyState == reader.EMPTY) {
+                    span.textContent = "待機中";
+                } else if (reader.readyState == reader.LOADING) {
+                    span.textContent = "ロード中";
+                } else if (reader.readyState == reader.DONE) {
+                    span.textContent = "完了";
+
+                    // video要素のsrc属性をセット
+                    var video = document.querySelector("video");
+                    video.src = reader.result;
+                    video.load();
+
+                    // タイマーを解除
+                    window.clearInterval(handler);
+                }
+            }, 100);
+        };
+    </script>
+</body>
+</html>
