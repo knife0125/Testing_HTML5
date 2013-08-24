@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File API 01</title>
+</head>
+<body>
+    <p><input type="file" /></p>
+    <dl>
+        <dt>ファイル名</dt>
+        <dd id="name">-</dd>
+        <dt>サイズ</dt>
+        <dd id="size">-</dd>
+        <dt>MIMEタイプ</dt>
+        <dd id="type">-</dd>
+        <dt>最終更新日時</dt>
+        <dd id="mdate">-</dd>
+    </dl>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.querySelector("input[type=\"file\"]");
+            input.addEventListener("change", function (evt) {
+                var files = evt.target.files;
+
+                var file = files[0];
+                if (!file) {return;}
+
+                // ファイルの各種情報を表示
+                document.querySelector("#name").textContent = file.name;
+                document.querySelector("#size").textContent = file.size;
+                document.querySelector("#type").textContent = file.type;
+                document.querySelector("#mdate").textContent = file.lastModifiedDate;
+            }, false);
+        }, false);
+    </script>
+</body>
+</html>
