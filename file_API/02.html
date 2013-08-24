@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File API 02 -FileReader Object-</title>
+</head>
+<body>
+    <h1>File API 02 -FileReader Object-</h1>
+    <p><input type="file" /></p>
+    <dl>
+        <dt>フォーマット</dt>
+        <dd id="format">-</dd>
+    </dl>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.querySelector("input[type=\"file\"]");
+            input.addEventListener("change", function (evt) {
+                var files = evt.target.files;
+                var file = files[0];
+                if (!file) {return;}
+
+                // 画像ファイルのフォーマットを判定
+                show_image_format(file);
+            }, false);
+
+            function show_image_format (file) {
+                // fileReaderオブジェクト
+                var reader = new FileReader();
+                // バイナリ形式でファイルデータを取得
+                reader.readAsBinaryString(file); //このメソッドを利用することで、reader.resultのデータがバイナリ形式に変換される
+                // ファイルデータの読み取りが成功した時の処理
+                reader.onload = function () {
+                    // バイナリ形式でファイルデータを取得
+                    var bin = reader.result;
+                    // バイナリデータの冒頭8byteを取得
+                    var header = bin.slice(0, 8);
+                    // formatを保持する変数を作成
+                    var fmt = "";
+
+                    if (header.match(/^GIF8[79]a/)) {
+                        fmt = "GIF";
+                    } else if (header.match(/^BM/)) {
+                        fmt = "BMP";
+                    } else if (header.match(/^\x89PNG\x0d\x0a\x1a\x0a/)) {
+                        fmt = "PNG";
+                    } else if (header.match(/^\xff\xd8/)) {
+                        fmt = "JPEG";
+                    }
+                    document.querySelector("#format").textContent = fmt;
+                };
+            };
+        }, false);
+    </script>
+</body>
+</html>
