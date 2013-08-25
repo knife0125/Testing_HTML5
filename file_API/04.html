@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>File API 04</title>
+</head>
+<body>
+    <h1>File API 04</h1>
+    <p><input type="file" /></p>
+    <p>
+        <progress value="0" max="100"></progress>
+        <span id="loaded">0</span> / <span id="total">0</span>バイト
+        (<span id="rate">0</span>%)
+    </p>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var input = document.querySelector("input[type=\"file\"]");
+            input.addEventListener("change", function (evt) {
+                // FileListオブジェクト
+                var files = evt.target.files;
+                // 選択されたファイルオブジェクト
+                var file = files[0];
+                if (!file) {return;}
+
+                // FileReaderオブジェクト
+                var reader = new FileReader();
+                // progressイベントのハンドラをセット　
+                reader.onprogress = show_progress;
+                // バイナリ形式でファイルデータを取得
+                reader.readAsBinaryString(file);
+            }, false);
+        }, false);
+
+        // 読み取りの進捗を表示
+        function show_progress (evt) {
+            document.querySelector("#total").textContent = evt.total;
+            document.querySelector("#loaded").textContent = evt.loaded;
+            var rate = (evt.loaded * 100 / evt.total).toFixed(1);
+            document.querySelector("#rate").textContent = rate;
+            document.querySelector("progress").value = rate;
+        }
+    </script>
+</body>
+</html>
